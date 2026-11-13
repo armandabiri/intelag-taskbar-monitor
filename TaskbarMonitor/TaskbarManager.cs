@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.Drawing;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Timers;
+using System.IO;
 
 namespace TaskbarMonitor
 {
@@ -47,6 +48,23 @@ namespace TaskbarMonitor
             {
                 return MainTaskbar.TaskbarMonitorControl;
             }
+        }
+
+        public static bool isLogInitialized = false;
+        public static void Log(string message)
+        {
+            try
+            {
+                string logFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "debug_log.txt");
+                if (!isLogInitialized)
+                {
+                    File.WriteAllText(logFile, $"[{DateTime.Now:HH:mm:ss}] --- LOG INITIALIZED ---{Environment.NewLine}");
+                    isLogInitialized = true;
+                }
+                File.AppendAllText(logFile, $"[{DateTime.Now:HH:mm:ss}] {message}{Environment.NewLine}");
+                Console.WriteLine(message);
+            }
+            catch { }
         }
 
         private TaskbarManager()
@@ -116,17 +134,20 @@ namespace TaskbarMonitor
                 }
             }
               
-            if (force || taskbar.PreviousRect.Width == 0 || (offset.Width != taskbar.PreviousRect.Width && taskbar.TaskbarMonitorControl.IsHandleCreated))
+            if ((force || taskbar.PreviousRect.Width == 0 || (offset.Width != taskbar.PreviousRect.Width && taskbar.TaskbarMonitorControl != null && taskbar.TaskbarMonitorControl.IsHandleCreated)) && taskbar.TaskbarMonitorControl != null)
             {
-                Debug.WriteLine("UpdatePosition");
+                Log($"DEBUG: UpdatePosition for {taskbar.TargetWnd}. Left: {taskbar.TaskbarMonitorControl.Left}, Width: {taskbar.TaskbarMonitorControl.Width}, Visible: {taskbar.TaskbarMonitorControl.Visible}");
+
                 taskbar.TaskbarMonitorControl?.Invoke((MethodInvoker)delegate
                 {
                     var mopt = GetOptionsForTaskbar(taskbar);                    
                     taskbar.TaskbarMonitorControl.Visible = this.Monitor.Options.EnableOnAllMonitors || mopt == null || mopt.Enabled;
                     taskbar.TaskbarMonitorControl.Left =
                        (mopt == null || mopt.Position == MonitorOptions.DisplayPosition.RIGHT)
-                       ? (rect.Width - taskbar.TaskbarMonitorControl.Width - offset.Width)
-                       : 0;
+                       ? (rect.Width - taskbar.TaskbarMonitorControl.Width - offset.Width - 10)
+                       : 10;
+                    
+                    Log($"DEBUG: Position set to Left={taskbar.TaskbarMonitorControl.Left}, Visible={taskbar.TaskbarMonitorControl.Visible}");
 
                     RECT recDiff = new RECT();
                     recDiff.left = rect.Width - taskbar.TaskbarMonitorControl.Width - taskbar.PreviousRect.Width;
@@ -158,11 +179,18 @@ namespace TaskbarMonitor
             string trayClass = "TrayNotifyWnd";
 
             var taskbarArea = windowListExtended.Where(w => w.Class == taskbarClass).SingleOrDefault();
-            if (taskbarArea == null) return false;
+            if (taskbarArea == null) {
+                Log("DEBUG: Main taskbarArea (Shell_TrayWnd) not found.");
+                return false;
+            }
 
             var trayArea = taskbarArea.ChildWindows.Where(x => x.Class == trayClass).SingleOrDefault();
-            if (trayArea == null) return false;
+            if (trayArea == null) {
+                Log($"DEBUG: trayArea ({trayClass}) not found in main taskbar.");
+                // return false; // Don't return false yet, try to add to taskbar itself
+            }
             
+            Log($"DEBUG: Adding control to main taskbar. Tray found: {trayArea != null}");
             everythingOK &= AddControlToTaskbar(taskbarArea, trayArea, true);
 
             if (BLL.WindowsInformation.IsWindows11())
@@ -171,10 +199,12 @@ namespace TaskbarMonitor
                 trayClass = "Windows.UI.Composition.DesktopWindowContentBridge";
 
                 var taskbarsAreas = windowListExtended.Where(w => w.Class == taskbarClass).ToList();
+                Log($"DEBUG: Found {taskbarsAreas.Count} secondary taskbars.");
 
                 foreach (var tbArea in taskbarsAreas)
                 {
                     var clockArea = !WindowsInformation.IsWindows11_22621() ? tbArea.ChildWindows.Where(x => x.Class == trayClass).LastOrDefault() : null;
+                    Log($"DEBUG: Adding control to secondary taskbar {tbArea.Handle}. Clock found: {clockArea != null}");
                     everythingOK &= AddControlToTaskbar(tbArea, clockArea, false);
                 }
             }
@@ -232,6 +262,7 @@ namespace TaskbarMonitor
                 TaskbarList.Add(tb);
                 tb.TargetWnd = taskbarArea.Handle;
             }
+            Log($"DEBUG: Initializing control for {taskbarArea.Handle}");
 
             if(isMainTaskbar && WindowsInformation.IsWindows11_22621())
             {
@@ -259,25 +290,33 @@ namespace TaskbarMonitor
             var rect = BLL.Win32Api.GetWindowSize(taskbarArea.Handle);
             var rectTray = trayArea != null ? BLL.Win32Api.GetWindowSize(trayArea.Handle) : Rectangle.Empty;
 
+            Log("DEBUG: Creating SystemWatcherControl...");
             var taskbarMonitorControl = new SystemWatcherControl(this.Monitor);
+            Log("DEBUG: Control created. Setting parent...");
             tb.TaskbarMonitorControl = taskbarMonitorControl;
             taskbarMonitorControl.Name = "taskbarMonitorFor" + taskbarArea.Handle;
             // taskbarMonitorControl.Left = rect.Width - taskbarMonitorControl.Width - rectTray.Width;
 
 
             BLL.Win32Api.SetParent(taskbarMonitorControl.Handle, taskbarArea.Handle);
+            Log($"DEBUG: Parent set to {taskbarArea.Handle}. Success: {taskbarMonitorControl.Handle != IntPtr.Zero}");
             //taskbarMonitorControl.BringToFront();
 
             if (WindowsInformation.IsWindows11_22621())
             {
-                Win32Api.SetWindowLong(taskbarMonitorControl.Handle, Win32Api.GWLParameter.GWL_EXSTYLE, (uint)(0x00000000L | 0x00010000L | 0x00080000 | 0x02000000L | 0x00000020L));
+                // Removed 0x00000020L (WS_EX_TRANSPARENT) to ensure visibility
+                Win32Api.SetWindowLong(taskbarMonitorControl.Handle, Win32Api.GWLParameter.GWL_EXSTYLE, (uint)(0x00000000L | 0x00010000L | 0x00080000 | 0x02000000L));
                 Win32Api.SetLayeredWindowAttributes(taskbarMonitorControl.Handle, 0, 255, 0x00000001 | 0x00000002);
             }
+            
+            // Explicitly bring to front
+            Win32Api.SetWindowPos(taskbarMonitorControl.Handle, new IntPtr(-1), 0, 0, 0, 0, 0x0001 | 0x0002 | 0x0040); // HWND_TOPMOST, SWP_NOMOVE, SWP_NOSIZE, SWP_SHOWWINDOW
             //Win32Api.SetWindowPos(taskbarMonitorControl.Handle,  new IntPtr(-1), 0, 0, 0, 0,
             //0x0001 | 0x0002 | 0x0040);
             taskbarMonitorControl.Show();
 
             UpdatePosition(tb);
+            Log($"DEBUG: Control created and parented to {taskbarArea.Handle}. Success: True");
 
             return true;
         }

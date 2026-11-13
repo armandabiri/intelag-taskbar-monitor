@@ -1,0 +1,16 @@
+Main Taskbar (Shell_TrayWnd): 66188
+  - Child: 66520, Class: Windows.UI.Core.CoreWindow
+  - Child: 66192, Class: Start
+  - Child: 66194, Class: TrayDummySearchControl
+  - Child: 66196, Class: TrayNotifyWnd
+  - Child: 66200, Class: ReBarWindow32
+  - Child: 66202, Class: MSTaskSwWClass
+  - Child: 66204, Class: MSTaskListWClass
+  - Child: 66580, Class: Windows.UI.Composition.DesktopWindowContentBridge
+  - Child: 66584, Class: Windows.UI.Input.InputSite.WindowClass
+Secondary Taskbar: 197388
+  - Child: 262926, Class: Start
+  - Child: 7802444, Class: WorkerW
+  - Child: 396840, Class: MSTaskListWClass
+  - Child: 200242, Class: Windows.UI.Composition.DesktopWindowContentBridge
+  - Child: 200244, Class: Windows.UI.Input.InputSite.WindowClass

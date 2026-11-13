@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug TaskbarMonitor (Windows 11 App)",
+            "type": "clr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/TaskbarMonitorWindows11/bin/Debug/IntelagTaskbarMonitorWindows11.exe",
+            "args": [],
+            "cwd": "${workspaceFolder}/TaskbarMonitorWindows11/bin/Debug",
+            "stopAtEntry": false,
+            "console": "internalConsole",
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "name": "Attach to TaskbarMonitor",
+            "type": "clr",
+            "request": "attach",
+            "processName": "IntelagTaskbarMonitorWindows11.exe"
+        }
+    ]
+}

@@ -1,0 +1,9 @@
+{
+    "dotnet.defaultSolution": "TaskbarMonitor.sln",
+    "csharp.unitTestDefaultOptions": {
+        "buildConfiguration": "Debug"
+    },
+    "omnisharp.enableMsBuildLoadProjectsOnDemand": true,
+    "omnisharp.autoStartOnOpening": true,
+    "csharp.suppressDotnetRestoreNotification": true
+}

@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -98,21 +98,21 @@ namespace TaskbarMonitor
         {
             return new GraphTheme
             {
-                BarColor = Color.FromArgb(255, 176, 222, 255),
-                TextColor = Color.FromArgb(200, 185, 255, 70),
-                TextShadowColor = Color.FromArgb(255, 100, 100, 100),
+                BarColor = Color.FromArgb(255, 0, 153, 255), // Vibrant Blue
+                TextColor = Color.FromArgb(255, 255, 255, 255), // White
+                TextShadowColor = Color.FromArgb(120, 0, 0, 0), // Subtle Black Shadow
                 TitleColor = Color.FromArgb(255, 255, 255, 255),
-                TitleShadowColor = Color.FromArgb(255, 100, 100, 100),
-                TitleFont = "Arial",
+                TitleShadowColor = Color.FromArgb(120, 0, 0, 0),
+                TitleFont = "Segoe UI",
                 TitleFontStyle = FontStyle.Bold,
-                TitleSize = 7f,
-                CurrentValueFont = "Arial",
-                CurrentValueFontStyle = FontStyle.Bold,
-                CurrentValueSize = 7f,
+                TitleSize = 7.5f,
+                CurrentValueFont = "Segoe UI",
+                CurrentValueFontStyle = FontStyle.Regular,
+                CurrentValueSize = 7.5f,
                 StackedColors = new List<Color>
                 {
-                    Color.FromArgb(255, 37, 84, 142) ,
-                    Color.FromArgb(255, 65, 144, 242)
+                    Color.FromArgb(255, 0, 99, 177) , // Darker Blue
+                    Color.FromArgb(255, 0, 183, 255)  // Lighter Cyan-Blue
                 }
             };
         }

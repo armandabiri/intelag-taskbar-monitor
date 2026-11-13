@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{60242E62-2923-4A65-ABD6-A71AE14D00D7}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>TaskbarMonitorWindows11</RootNamespace>
-    <AssemblyName>TaskbarMonitorWindows11</AssemblyName>
+    <RootNamespace>IntelagTaskbarMonitorWindows11</RootNamespace>
+    <AssemblyName>IntelagTaskbarMonitorWindows11</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -90,7 +90,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TaskbarMonitor\TaskbarMonitor.csproj">
       <Project>{076ffca7-af74-42c4-a836-6130b96a7a26}</Project>
-      <Name>TaskbarMonitor</Name>
+      <Name>IntelagTaskbarMonitor</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

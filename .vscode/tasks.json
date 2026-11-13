@@ -1,0 +1,45 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/MSBuild.exe",
+            "args": [
+                "/t:Build",
+                "/p:Configuration=Debug",
+                "/p:VisualStudioVersion=17.0",
+                "TaskbarMonitor.sln"
+            ],
+            "type": "process",
+            "problemMatcher": "$msCompile",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "restore",
+            "command": "${workspaceFolder}/nuget.exe",
+            "args": [
+                "restore",
+                "TaskbarMonitor.sln"
+            ],
+            "type": "process",
+            "problemMatcher": []
+        },
+        {
+            "label": "run",
+            "command": "powershell.exe",
+            "args": [
+                "-Command",
+                "Start-Process '${workspaceFolder}/TaskbarMonitorWindows11/bin/Debug/IntelagTaskbarMonitorWindows11.exe'"
+            ],
+            "type": "process",
+            "dependsOn": [
+                "build"
+            ],
+            "problemMatcher": [],
+            "group": "test"
+        }
+    ]
+}

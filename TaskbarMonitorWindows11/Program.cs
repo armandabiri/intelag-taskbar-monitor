@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -71,6 +71,9 @@ namespace TaskbarMonitorWindows11
              
                 using (ctx = new TaskbarMonitorApplicationContext())
                 {                    
+#if (DEBUG)
+                    ctx.ShowSettings(); // Auto-open settings on debug for visual feedback
+#endif
                     Application.Run(ctx);
                 }
             }
@@ -158,6 +161,11 @@ namespace TaskbarMonitorWindows11
                 };              
             }            
  
+            public void ShowSettings()
+            {
+                OpenSettings();
+            }
+
             private void OpenSettings(int activeIndex = 0)
             {
                 var qtd = Application.OpenForms.OfType<OptionForm>();

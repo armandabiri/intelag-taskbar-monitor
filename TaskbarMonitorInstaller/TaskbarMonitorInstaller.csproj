@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{376BAB67-3286-40D8-8D11-DEB2BEB37088}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TaskbarMonitorInstaller</RootNamespace>
-    <AssemblyName>TaskbarMonitorInstaller</AssemblyName>
+    <RootNamespace>IntelagTaskbarMonitorInstaller</RootNamespace>
+    <AssemblyName>IntelagTaskbarMonitorInstaller</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -74,11 +74,11 @@
     <None Include="Resources\Newtonsoft.Json.dll" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\TaskbarMonitor.dll" />
+    <None Include="Resources\IntelagTaskbarMonitor.dll" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="icon.ico" />
-    <None Include="Resources\TaskbarMonitorWindows11.exe" />
+    <None Include="Resources\IntelagTaskbarMonitorWindows11.exe" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

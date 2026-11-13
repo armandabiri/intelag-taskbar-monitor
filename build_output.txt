@@ -1,0 +1,56 @@
+MSBuild version 17.13.19+0d9f5a35a for .NET Framework
+Build started 4/7/2026 9:17:50 PM.
+
+Project "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitor.sln" on node 1 (Build target(s)).
+ValidateSolutionConfiguration:
+  Building solution configuration "Release|Any CPU".
+Project "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitor.sln" (1) is building "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitor\TaskbarMonitor.csproj" (2) on node 1 (default targets).
+CoreResGen:
+  Task assembly was loaded from 'C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Build.dll' while the desired location was 'C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Build.Tasks.Core.dll'.
+  No resources are out of date with respect to their source files. Skipping resource generation.
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+CoreCompile:
+Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+_CopyAppConfigFile:
+Skipping target "_CopyAppConfigFile" because all output files are up-to-date with respect to the input files.
+CopyFilesToOutputDirectory:
+  TaskbarMonitor -> D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitor\bin\Release\TaskbarMonitor.dll
+Done Building Project "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitor\TaskbarMonitor.csproj" (default targets).
+Project "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitor.sln" (1) is building "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\TaskbarMonitorInstaller.csproj.metaproj" (3) on node 1 (default targets).
+Project "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\TaskbarMonitorInstaller.csproj.metaproj" (3) is building "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorWindows11\TaskbarMonitorWindows11.csproj" (4) on node 1 (default targets).
+CoreResGen:
+  Task assembly was loaded from 'C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Build.dll' while the desired location was 'C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Build.Tasks.Core.dll'.
+  No resources are out of date with respect to their source files. Skipping resource generation.
+GenerateTargetFrameworkMonikerAttribute:
+Skipping target "GenerateTargetFrameworkMonikerAttribute" because all output files are up-to-date with respect to the input files.
+CoreCompile:
+Skipping target "CoreCompile" because all output files are up-to-date with respect to the input files.
+_CopyAppConfigFile:
+Skipping target "_CopyAppConfigFile" because all output files are up-to-date with respect to the input files.
+CopyFilesToOutputDirectory:
+  TaskbarMonitorWindows11 -> D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorWindows11\bin\Release\TaskbarMonitorWindows11.exe
+Done Building Project "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorWindows11\TaskbarMonitorWindows11.csproj" (default targets).
+Project "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\TaskbarMonitorInstaller.csproj.metaproj" (3) is building "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\TaskbarMonitorInstaller.csproj" (5) on node 1 (default targets).
+CoreResGen:
+  Task assembly was loaded from 'C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Build.dll' while the desired location was 'C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Microsoft.Build.Tasks.Core.dll'.
+  "C:\Program Files (x86)\Microsoft SDKs\Windows\v10.0A\bin\NETFX 4.8 Tools\resgen.exe" /useSourcePath /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Microsoft.CSharp.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.DataSetExtensions.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Net.Http.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.dll" /r:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.Linq.dll" /compile Properties\Resources.resx,obj\Release\TaskbarMonitorInstaller.Properties.Resources.resources
+  Processing resource file "Properties\Resources.resx" into "obj\Release\TaskbarMonitorInstaller.Properties.Resources.resources".
+CoreCompile:
+  C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\Roslyn\csc.exe /noconfig /nowarn:1701,1702 /fullpaths /nostdlib+ /platform:x64 /errorreport:prompt /warn:4 /define:TRACE /highentropyva+ /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\Microsoft.CSharp.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\mscorlib.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Core.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.DataSetExtensions.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Data.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Net.Http.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.dll" /reference:"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Xml.Linq.dll" /debug:pdbonly /filealign:512 /optimize+ /out:obj\Release\TaskbarMonitorInstaller.exe /subsystemversion:6.00 /resource:obj\Release\TaskbarMonitorInstaller.Properties.Resources.resources /target:exe /utf8output /win32icon:icon.ico /win32manifest:app.manifest /deterministic+ /langversion:7.3 BLL\RestartExplorer.cs BLL\Win32Api.cs Program.cs Properties\AssemblyInfo.cs Properties\Resources.Designer.cs "obj\Release\.NETFramework,Version=v4.7.2.AssemblyAttributes.cs"
+  CompilerServer: server - server processed compilation - TaskbarMonitorInstaller
+_CopyAppConfigFile:
+  Copying file from "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\App.config" to "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\bin\Release\TaskbarMonitorInstaller.exe.config".
+CopyFilesToOutputDirectory:
+  Copying file from "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\obj\Release\TaskbarMonitorInstaller.exe" to "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\bin\Release\TaskbarMonitorInstaller.exe".
+  TaskbarMonitorInstaller -> D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\bin\Release\TaskbarMonitorInstaller.exe
+  Copying file from "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\obj\Release\TaskbarMonitorInstaller.pdb" to "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\bin\Release\TaskbarMonitorInstaller.pdb".
+Done Building Project "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\TaskbarMonitorInstaller.csproj" (default targets).
+Done Building Project "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitorInstaller\TaskbarMonitorInstaller.csproj.metaproj" (default targets).
+Done Building Project "D:\INTELAG\repo\intelag-taskbar-monitor\TaskbarMonitor.sln" (Build target(s)).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.90

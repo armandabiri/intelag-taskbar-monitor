@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
+using System.Drawing.Drawing2D;
+using System.Drawing.Text;
 
 // control architecture
 
@@ -18,11 +20,12 @@ namespace TaskbarMonitor
 {
     public partial class SystemWatcherControl : UserControl
     {
-        public bool SHOW_DEBUG = false;
+        public bool SHOW_DEBUG = true;
         int taskbarHeight = 0;
         public delegate void SizeChangeHandler(Size size);
         public event SizeChangeHandler OnChangeSize;
-        public Version Version { get; set; } = new Version(Properties.Resources.Version);
+        public Version Version { get; set; } = new Version("0.3.4");
+        //public Version Version { get; set; } = new Version(Properties.Resources.Version);
         [Browsable(false)]
         [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Options Options { get; set; }
@@ -101,18 +104,24 @@ namespace TaskbarMonitor
                 try
                 {
                     Options opt = monitor.Options;
+                    TaskbarManager.Log("DEBUG: Loading themes...");
                     darkTheme = GraphTheme.DefaultDarkTheme();
                     lightTheme = GraphTheme.DefaultLightTheme();
                     customTheme = GraphTheme.ReadFromDisk();
+                    
+                    TaskbarManager.Log("DEBUG: Upgrading options...");
                     opt.Upgrade(customTheme);
 
+                    TaskbarManager.Log("DEBUG: Initializing UI components...");
                     Initialize(opt);
                     this.BackColor = Color.Transparent;
                     monitor.OnMonitorUpdated += Monitor_OnMonitorUpdated;
+                    TaskbarManager.Log("DEBUG: Monitor attached successfully.");
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error loading SystemWatcherControl: {ex.Message}", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    TaskbarManager.Log($"ERROR in AttachMonitor: {ex.Message}\n{ex.StackTrace}");
+                    // MessageBox.Show($"Error loading SystemWatcherControl: {ex.Message}\n\nStack: {ex.StackTrace}", Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -326,6 +335,7 @@ namespace TaskbarMonitor
 
             int counterSize = (Options.HistorySize + 10);
             int controlWidth = counterSize * CountersCount;
+            if (controlWidth == 0) controlWidth = 100; // Minimum width for visibility during debug
             int controlHeight = minimumHeight;
 
             if (VerticalTaskbarMode && taskbarWidth < controlWidth)
@@ -361,9 +371,10 @@ namespace TaskbarMonitor
 
 
             System.Drawing.Graphics formGraphics = e.Graphics;// this.CreateGraphics();            
-            formGraphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+            formGraphics.SmoothingMode = SmoothingMode.AntiAlias;
+            formGraphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
+            formGraphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
 
-            //formGraphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;//AntiAliasGridFit;
             formGraphics.Clear(Color.Transparent);
             if (SHOW_DEBUG)
             {
@@ -610,9 +621,31 @@ namespace TaskbarMonitor
                 points[i] = new Point(initialGraphPosition + i, maxH + y);
                 points[i + 1] = new Point(initialGraphPosition, maxH + y);
             }
-            using (SolidBrush BrushGraph = new SolidBrush(theme.getNthColor(2, invertido ? 1 : 0)))
+            Color baseColor = theme.getNthColor(2, invertido ? 1 : 0);
+            Color gradientColor = Color.FromArgb(100, baseColor); // More transparent base
+            Color topColor = Color.FromArgb(200, baseColor);     // Brighter top
+
+            using (LinearGradientBrush BrushGraph = new LinearGradientBrush(new Rectangle(x, y, Options.HistorySize, maxH), topColor, gradientColor, LinearGradientMode.Vertical))
             {
+                if (invertido)
+                {
+                    BrushGraph.LinearColors = new Color[] { gradientColor, topColor };
+                }
                 formGraphics.FillPolygon(BrushGraph, points);
+            }
+
+            // Draw the line on top of the graph for better definition
+            using (Pen graphPen = new Pen(baseColor, 1.5f))
+            {
+                graphPen.LineJoin = LineJoin.Round;
+                // We only want to draw the top edge, not the bottom/sides of the polygon
+                // The history points are from 0 to info.History.Count-1
+                Point[] linePoints = new Point[info.History.Count];
+                Array.Copy(points, linePoints, info.History.Count);
+                if (linePoints.Length > 1)
+                {
+                    formGraphics.DrawLines(graphPen, linePoints);
+                }
             }
 
         }
@@ -674,10 +707,27 @@ namespace TaskbarMonitor
                 points[i] = new Point(initialGraphPosition + i, maxH + y);
                 points[i + 1] = new Point(initialGraphPosition, maxH + y);
 
-                Brush brush = new SolidBrush(colors.ElementAt(w));
+                Color baseColor = colors.ElementAt(w);
+                Color gradientColor = Color.FromArgb(80, baseColor);
+                Color topColor = Color.FromArgb(180, baseColor);
+
+                using (LinearGradientBrush brush = new LinearGradientBrush(new Rectangle(x, y, Options.HistorySize, maxH), topColor, gradientColor, LinearGradientMode.Vertical))
+                {
+                    formGraphics.FillPolygon(brush, points);
+                }
+
+                // Draw a subtle line on top of each stacked layer
+                using (Pen graphPen = new Pen(Color.FromArgb(200, baseColor), 1f))
+                {
+                    graphPen.LineJoin = LineJoin.Round;
+                    Point[] linePoints = new Point[historySize];
+                    Array.Copy(points, linePoints, historySize);
+                    if (linePoints.Length > 1)
+                    {
+                        formGraphics.DrawLines(graphPen, linePoints);
+                    }
+                }
                 w++;
-                formGraphics.FillPolygon(brush, points);
-                brush.Dispose();
 
 
             }
